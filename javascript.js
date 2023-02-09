@@ -20,9 +20,8 @@ numButton.forEach(element => {
         }else if(objLength == 4){
             displayValue.secondNum += element.innerHTML;
             helperNumber.push(element.innerHTML)
-          //  upperDisplay.textContent = displayValue.secondNum;
-                upperDisplay.append(helperNumber[helperNumber.length -1]);
-                console.log(helperNumber)
+            upperDisplay.append(helperNumber[helperNumber.length -1]);
+
             
         };
     });
@@ -37,6 +36,7 @@ const subtractButton = document.getElementById('subtract');
 const multiplyButton = document.getElementById('multiply');
 const divideButton = document.getElementById('divide');
 const equalButton = document.getElementById('equal');
+const clearButton = document.getElementById('clear');
 
 addButton.addEventListener('click', () =>{
     displayValue.operate = add;
@@ -58,13 +58,28 @@ divideButton.addEventListener('click', () =>{
     upperDisplay.append('%');
 });
 
+//clears the display and the stored values upon pressing the clear button
+
+clearButton.addEventListener('click', () =>{
+    if(displayValue.firstNum.length > 0){
+        displayValue.firstNum = [];
+        delete displayValue.operate
+    }if(displayValue.secondNum.length > 0){
+        displayValue.secondNum = [];
+        delete displayValue.operate
+    };
+
+    upperDisplay.textContent = "";
+    lowerDisplay.textContent = "";
+
+});
+
 //gives the result based on the first number, operator and second number
 
 equalButton.addEventListener('click', () =>{
     displayValue.result = operate(displayValue.operate, displayValue.firstNum, 
         displayValue.secondNum);
     lowerDisplay.textContent = displayValue.result;
-    console.table(displayValue)
 });
 
 
