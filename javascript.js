@@ -1,3 +1,4 @@
+
 let displayValue = {
     firstNum : [],
     secondNum : [],
@@ -13,21 +14,21 @@ const numButton = document.querySelectorAll('.num');
 
 numButton.forEach(element => {
      element.addEventListener('click', () =>{
-        let objLength = Object.keys(displayValue).length
+        let objLength = Object.keys(displayValue).length;
         if(objLength == 3){
             displayValue.firstNum += element.innerHTML;
             upperDisplay.textContent = displayValue.firstNum;
+            console.table(displayValue);
         }else if(objLength == 4){
             displayValue.secondNum += element.innerHTML;
             helperNumber.push(element.innerHTML)
             upperDisplay.append(helperNumber[helperNumber.length -1]);
-
+            console.table(displayValue);
+            console.log(helperNumber);
             
         };
     });
-    }
-    
-);
+    });
 
 //Adds the pressed operator function to the displayValue and to the display
 
@@ -37,38 +38,59 @@ const multiplyButton = document.getElementById('multiply');
 const divideButton = document.getElementById('divide');
 const equalButton = document.getElementById('equal');
 const clearButton = document.getElementById('clear');
+const floatingPointButton = document.getElementById('floatingPoint');
+
+floatingPointButton.addEventListener('click', () =>{
+    let objLength = Object.keys(displayValue).length;
+    if(objLength == 3){
+        displayValue.firstNum += ".";
+    }else if(objLength == 4){
+        displayValue.secondNum += ".";
+        helperNumber.push(".")
+        upperDisplay.append(helperNumber[helperNumber.length -1]);
+    }
+    
+});
 
 addButton.addEventListener('click', () =>{
     displayValue.operate = add;
     upperDisplay.append('+');
+    console.table(displayValue);
 });
 
 subtractButton.addEventListener('click', () =>{
     displayValue.operate = subtract;
     upperDisplay.append('-');
+    console.table(displayValue);
 });
 
 multiplyButton.addEventListener('click', () =>{
     displayValue.operate = multiply;
     upperDisplay.append('*');
+    console.table(displayValue);
 });
 
 divideButton.addEventListener('click', () =>{
     displayValue.operate = divide;
-    upperDisplay.append('%');
+    upperDisplay.append('/');
+    console.table(displayValue);
 });
 
 //clears the display and the stored values upon pressing the clear button
 
 clearButton.addEventListener('click', () =>{
     if(displayValue.firstNum.length > 0){
+        displayValue.result = [];
         displayValue.firstNum = [];
+        displayValue.secondNum = [];
         delete displayValue.operate
-    }if(displayValue.secondNum.length > 0){
+    }if(displayValue.secondNum.length >= 0){
+        displayValue.result = [];
+        displayValue.firstNum = [];
         displayValue.secondNum = [];
         delete displayValue.operate
     };
-
+    console.table(displayValue);
     upperDisplay.textContent = "";
     lowerDisplay.textContent = "";
 
@@ -78,7 +100,11 @@ clearButton.addEventListener('click', () =>{
 
 equalButton.addEventListener('click', () =>{
     displayValue.result = operate(displayValue.operate, displayValue.firstNum, 
-        displayValue.secondNum);
+    displayValue.secondNum);
+    //puts the result into to the first number then clears the second number array
+    displayValue.firstNum = displayValue.result;
+    displayValue.secondNum = [];
+    console.table(displayValue);
     lowerDisplay.textContent = displayValue.result;
 });
 
@@ -108,3 +134,4 @@ function operate(operator, a, b){
 
 let upperDisplay = document.getElementById('upper-display');
 let lowerDisplay = document.getElementById('lower-display');
+
